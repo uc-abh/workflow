@@ -1,29 +1,16 @@
-name: PHP CodeSniffer and CodeBeautifier
+name: PHP Code Sniffer
 
 on: [push, pull_request]
 
 jobs:
   phpcs:
-    runs-on: windows-latest
-    
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-      
-    - name: Install PHP extensions
-      run: |
-        choco install php
-        echo "extension=php_fileinfo.dll" >> "${{phpini}}\php.ini"
-    
-    - name: Install Composer
-      run: |
-        choco install composer
-        composer global require squizlabs/php_codesniffer
-        composer global require friendsofphp/php-cs-fixer
-    
-    - name: Check code style
-      run: |
-        phpcs --standard=PSR12 .
-    
-    - name: Fix code style
-      run: |
-        phpcbf --standard=PSR12 .
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Install dependencies
+      run: composer install
+    - name: Run PHPCS
+      run: vendor/bin/phpcs
+    - name: Run PHPCBF
+      run: vendor/bin/phpcbf
