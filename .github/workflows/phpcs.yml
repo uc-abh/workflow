@@ -25,4 +25,4 @@ jobs:
         run: composer global require "squizlabs/php_codesniffer=*"
 
       - name: Run PHPCS
-        run: phpcs --standard=PSR2 /workflows
+        run: phpcs --standard=PSR2 /
