@@ -1,27 +1,29 @@
-name: PHPCS and PHPCBF
+name: PHP CodeSniffer and CodeBeautifier
 
-on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
+on: [push, pull_request]
 
 jobs:
   phpcs:
     runs-on: windows-latest
+    
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Install PHP and PHPCS
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 7.4
-          tools: phpcs
-
-      - name: Run PHPCS and PHPCBF
-        run: |
-          php .\vendor\bin\phpcbf.bat --standard=PSR2 .
-          php .\vendor\bin\phpcs.bat --standard=PSR2 .
+    - uses: actions/checkout@v2
+      
+    - name: Install PHP extensions
+      run: |
+        choco install php
+        echo "extension=php_fileinfo.dll" >> "${{phpini}}\php.ini"
+    
+    - name: Install Composer
+      run: |
+        choco install composer
+        composer global require squizlabs/php_codesniffer
+        composer global require friendsofphp/php-cs-fixer
+    
+    - name: Check code style
+      run: |
+        phpcs --standard=PSR12 .
+    
+    - name: Fix code style
+      run: |
+        phpcbf --standard=PSR12 .
