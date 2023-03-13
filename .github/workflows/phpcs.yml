@@ -12,4 +12,3 @@ jobs:
         run: composer install
       - name: Run PHPCS
         run: vendor/bin/phpcs index.php --standard=PSR2
-        run : Run vendor/bin/phpcs index.php --standard=PSR2
