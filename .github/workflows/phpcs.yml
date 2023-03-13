@@ -12,7 +12,7 @@ jobs:
     - name: Install PHP extensions
       run: |
         choco install php
-        echo "extension=php_fileinfo.dll" >> "C:\php\php.ini"
+        echo "extension=php_fileinfo.dll" >> "C:\xampp\php\php.ini"
 
     
     - name: Install Composer
