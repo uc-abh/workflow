@@ -1,16 +1,28 @@
-name: PHP Code Sniffer
+name: PHPCS
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   phpcs:
     runs-on: ubuntu-latest
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    - name: Install dependencies
-      run: composer install
-    - name: Run PHPCS
-      run: vendor/bin/phpcs
-    - name: Run PHPCBF
-      run: vendor/bin/phpcbf
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+
+      - name: Install PHPCS
+        run: composer global require "squizlabs/php_codesniffer=*"
+
+      - name: Run PHPCS
+        run: phpcs --standard=PSR2 /
