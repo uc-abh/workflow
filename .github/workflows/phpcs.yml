@@ -1,0 +1,27 @@
+name: PHPCS and PHPCBF
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  phpcs:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install PHP and PHPCS
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+          tools: phpcs
+
+      - name: Run PHPCS and PHPCBF
+        run: |
+          php .\vendor\bin\phpcbf.bat --standard=PSR2 .
+          php .\vendor\bin\phpcs.bat --standard=PSR2 .
